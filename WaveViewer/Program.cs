@@ -16,11 +16,7 @@ namespace WaveViewer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-#if OLD
-            Application.Run(new Forms.MainWindow());
-#else
             Application.Run(new Forms.Main());
-#endif
         }
     }
 }
