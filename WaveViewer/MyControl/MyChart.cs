@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
+using Brush = SharpDX.Direct2D1.Brush;
 
 namespace WaveViewer.MyControl
 {
@@ -81,10 +82,7 @@ namespace WaveViewer.MyControl
         {
             set
             {
-                this._wave = new MySeries();
-                this._wave.data = value;
-                this._wave.begin = 0;
-                this._wave.end = value.Length-1;
+                this._wave = new MySeries {data = value, begin = 0, end = value.Length - 1};
             }
         }
 
@@ -124,11 +122,11 @@ namespace WaveViewer.MyControl
                 AntialiasMode = AntialiasMode.PerPrimitive
             };
 
-            _blackBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.0f, 0.0f, 0.9f));//纯种黑
-            _blueBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.3f, 0.6f, 1.0f, 0.5f));//天依蓝
-            _greenBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.8f, 0.0f, 0.9f));//原谅色
-            _redBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.8f, 0.0f, 0.0f, 0.9f));//姨妈红
-            _pinkBrush = new SolidColorBrush(_renderTarget, new RawColor4(1.0f, 0.3f, 0.3f, 0.9f));//少女粉
+            _blackBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.0f, 0.0f, 0.9f));    //纯种黑
+            _blueBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.3f, 0.6f, 1.0f, 0.5f));     //天依蓝
+            _greenBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.8f, 0.0f, 0.9f));    //原谅绿
+            _redBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.8f, 0.0f, 0.0f, 0.9f));      //姨妈红
+            _pinkBrush = new SolidColorBrush(_renderTarget, new RawColor4(1.0f, 0.3f, 0.3f, 0.9f));     //少女粉
 
             SharpDX.DirectWrite.Factory fac = new SharpDX.DirectWrite.Factory();
             _blackTextFormat = new SharpDX.DirectWrite.TextFormat(fac, "微软雅黑", 10.0f);//一个阿拉伯数字宽度6像素吧（大概....）
@@ -140,7 +138,7 @@ namespace WaveViewer.MyControl
                 renderControl.ClientSize.Height - moveY - y  * scale);
         }
 
-        private void DrawSeries(MySeries s, SolidColorBrush brush, float moveY, float scale)
+        private void DrawSeries(MySeries s, Brush brush, float moveY, float scale)
         {
             int begin, end;
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
@@ -153,7 +151,7 @@ namespace WaveViewer.MyControl
                     brush, 0.5f);
             }
         }
-        private void DrawSeriesHalf(MySeries s, SolidColorBrush brush, float moveY, float scale)
+        private void DrawSeriesHalf(MySeries s, Brush brush, float moveY, float scale)
         {
             int begin, end;
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
@@ -176,8 +174,8 @@ namespace WaveViewer.MyControl
             _renderTarget.DrawLine(new RawVector2(40, renderControl.ClientSize.Height - 20),
                 new RawVector2(40, 0), _blackBrush);
 
-            float strLen = ((int)(this._minX + (renderControl.ClientSize.Width - 40) / _scale_times)).ToString().Length * 6.0f;//字符串长度不会超过这个值
-            float interval = (strLen + 6.0f) / _scale_times;//留6像素的间隔，确定为采样点分割线的间距
+            var strLen = ((int)(this._minX + (renderControl.ClientSize.Width - 40) / _scale_times)).ToString().Length * 6.0f;//字符串长度不会超过这个值
+            var interval = (strLen + 6.0f) / _scale_times;//留6像素的间隔，确定为采样点分割线的间距
             //计算合适的分度值
             int a = 1, b = 2, c = 5;
             while (true)
@@ -204,7 +202,7 @@ namespace WaveViewer.MyControl
             //绘制分割线和数字
             for (int i = (int)_minX-(int)_minX%(int)interval+(int)interval; i < (int)_minX+(renderControl.ClientSize.Width - 40) / _scale_times; i += (int)interval)
             {
-                float x = (i-_minX) * _scale_times + 40.0f;
+                var x = (i-_minX) * _scale_times + 40.0f;
                 _renderTarget.DrawLine(new RawVector2(x, renderControl.ClientSize.Height - 20),
                     new RawVector2(x, renderControl.ClientSize.Height - 27), _blackBrush, 0.8f);
 
@@ -437,7 +435,7 @@ namespace WaveViewer.MyControl
             }
             if (_chosenAreaMin < _chosenAreaMax)
             {
-                float x = (_chosenAreaMin - _minX) * _scale_times + 40.0f;
+                var x = (_chosenAreaMin - _minX) * _scale_times + 40.0f;
                 if (x > 40 && x < renderControl.ClientSize.Width)
                     _renderTarget.DrawLine(new RawVector2(x, 0),
                         new RawVector2(x, this.Height), _blueBrush, 2);

@@ -87,32 +87,26 @@ namespace WaveViewer.Forms
             new Forms.AboutBox().ShowDialog();
         }
 
-        private void hScrollBar2_Scroll(object sender, ScrollEventArgs e)
-        {
-            myChart1.MinX = ((HScrollBar)sender).Value;
-            textBox_move.Text = ((HScrollBar)sender).Value.ToString();
-        }
-
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void trackBar_move_Scroll(object sender, EventArgs e)
         {
             myChart1.MinX = ((TrackBar)sender).Value;
             textBox_move.Text = ((TrackBar)sender).Value.ToString();
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void trackBar_scale_Scroll(object sender, EventArgs e)
         {
-            float times = (float)Math.Pow(2.0, ((TrackBar)sender).Value / 100.0);
+            var times = (float)Math.Pow(2.0, ((TrackBar)sender).Value / 100.0);
             myChart1.Scale_times = times;
-            if (times >= 10.0)
+            if (times >= 10.0f)
             {
                 trackBar_move.SmallChange = 1;
             }
             else
             {
-                trackBar_move.SmallChange = (int)(10.0 / times);
+                trackBar_move.SmallChange = (int)(10.0f / times);
             }
             trackBar_move.LargeChange = 5 * trackBar_move.SmallChange;
-            textBox_scale.Text = times.ToString("×#0.000");
+            textBox_scale.Text = times.ToString("#0.000");
         }
 
         private void 波形ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -203,7 +197,7 @@ namespace WaveViewer.Forms
                 MessageBox.Show("请先计算频谱!", "提示");
         }
 
-        private void button_playstop_Click(object sender, EventArgs e)
+        private void button_play_Click(object sender, EventArgs e)
         {
             if (_wr != null && _wr.GetData() != null)
             {
@@ -225,10 +219,38 @@ namespace WaveViewer.Forms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_stop_Click(object sender, EventArgs e)
         {
-            if (_player != null)
-                _player.Stop();
+            _player?.Stop();
+        }
+
+        private void textBox_move_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue != 13) return;
+            if (!int.TryParse(((TextBox) sender).Text, out var value))
+                value = 0;
+            if (value > trackBar_move.Maximum)
+                value = trackBar_move.Maximum;
+            if (value < trackBar_move.Minimum)
+                value = trackBar_move.Minimum;
+            trackBar_move.Value = value;
+            trackBar_move.Focus();
+            trackBar_move_Scroll(trackBar_move, null);
+        }
+
+        private void textBox_scale_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue != 13) return;
+            if (!double.TryParse(((TextBox) sender).Text, out var times))
+                times = 1.0f;
+            var value = (int) (100 * Math.Log(times, 2.0));
+            if (value > trackBar_scale.Maximum)
+                value = trackBar_scale.Maximum;
+            if (value < trackBar_scale.Minimum)
+                value = trackBar_scale.Minimum;
+            trackBar_scale.Value = value;
+            trackBar_scale.Focus();
+            trackBar_scale_Scroll(trackBar_scale, null);
         }
     }
 }
