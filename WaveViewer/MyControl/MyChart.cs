@@ -12,8 +12,11 @@ namespace WaveViewer.MyControl
 {
     public partial class MyChart : UserControl
     {
+        //波形数据
         private MySeries _wave;
+        //频谱以及频谱的频谱数据
         private MySeries[] _spec, _specspec;
+        //倒谱数据
         private MySeries[] _cepstrum;
         private int _chosenAreaMin, _chosenAreaMax;
         /// <summary>
@@ -43,7 +46,7 @@ namespace WaveViewer.MyControl
         /// <summary>
         /// 平均每采样点间隔的像素数
         /// </summary>
-        private float _scale_times;
+        private float _scale_times_X;
 
         private WindowRenderTarget _renderTarget;
         private Point _mouseStartPoint, _mouseEndPoint;
@@ -69,11 +72,11 @@ namespace WaveViewer.MyControl
         {
             get
             {
-                return _scale_times;
+                return _scale_times_X;
             }
             set
             {
-                _scale_times = value;
+                _scale_times_X = value;
                 this.Refresh();
             }
         }
@@ -134,15 +137,15 @@ namespace WaveViewer.MyControl
 
         RawVector2 getPixelPoint(float x, float y, float moveY, float scale)
         {
-            return new RawVector2((x - _minX) * _scale_times + 40.0f,
-                renderControl.ClientSize.Height - moveY - y  * scale);
+            return new RawVector2((x - _minX) * _scale_times_X + 40.0f,
+                renderControl.ClientSize.Height - 20 - moveY - y * scale);
         }
 
         private void DrawSeries(MySeries s, Brush brush, float moveY, float scale)
         {
             int begin, end;
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
-            float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times;
+            float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
             for (int i = begin + 1; i < end; i++)
             {
@@ -155,7 +158,7 @@ namespace WaveViewer.MyControl
         {
             int begin, end;
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
-            float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times;
+            float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
             for (int i = begin + 1; i < end && i - s.begin <= Setting.FrameLength / 2; i++)
             {
@@ -174,8 +177,8 @@ namespace WaveViewer.MyControl
             _renderTarget.DrawLine(new RawVector2(40, renderControl.ClientSize.Height - 20),
                 new RawVector2(40, 0), _blackBrush);
 
-            var strLen = ((int)(this._minX + (renderControl.ClientSize.Width - 40) / _scale_times)).ToString().Length * 6.0f;//字符串长度不会超过这个值
-            var interval = (strLen + 6.0f) / _scale_times;//留6像素的间隔，确定为采样点分割线的间距
+            var strLen = ((int)(this._minX + (renderControl.ClientSize.Width - 40) / _scale_times_X)).ToString().Length * 6.0f;//字符串长度不会超过这个值
+            var interval = (strLen + 6.0f) / _scale_times_X;//留6像素的间隔，确定为采样点分割线的间距
             //计算合适的分度值
             int a = 1, b = 2, c = 5;
             while (true)
@@ -199,35 +202,59 @@ namespace WaveViewer.MyControl
                 b *= 10;
                 c *= 10;
             }
-            //绘制分割线和数字
-            for (int i = (int)_minX-(int)_minX%(int)interval+(int)interval; i < (int)_minX+(renderControl.ClientSize.Width - 40) / _scale_times; i += (int)interval)
+            //绘制横坐标分割线和数字
+            for (int i = (int)_minX-(int)_minX%(int)interval+(int)interval; i < (int)_minX+(renderControl.ClientSize.Width - 40) / _scale_times_X; i += (int)interval)
             {
-                var x = (i-_minX) * _scale_times + 40.0f;
+                var x = (i-_minX) * _scale_times_X + 40.0f;
                 _renderTarget.DrawLine(new RawVector2(x, renderControl.ClientSize.Height - 20),
                     new RawVector2(x, renderControl.ClientSize.Height - 27), _blackBrush, 0.8f);
 
                 _renderTarget.DrawText(i.ToString(), _blackTextFormat, new RawRectangleF(x - strLen / 2, renderControl.ClientSize.Height - 20, x + strLen / 2, renderControl.ClientSize.Height), _blackBrush);
-
             }
             //左下角分度值标注
             _renderTarget.DrawText(interval.ToString(), _blackTextFormat, new RawRectangleF(40, renderControl.ClientSize.Height - 38, 45 + 6 * interval.ToString().Length, renderControl.ClientSize.Height - 18), _blackBrush);
+            //绘制纵坐标分割线和数字
+            //0
+            _renderTarget.DrawLine(new RawVector2(40, renderControl.ClientSize.Height / 2 - 10),
+                new RawVector2(renderControl.ClientSize.Width, renderControl.ClientSize.Height / 2 - 10), _blackBrush);
+            _renderTarget.DrawText("0", _blackTextFormat, new RawRectangleF(30, renderControl.ClientSize.Height / 2 - 7, 36, renderControl.ClientSize.Height / 2 - 17), _blackBrush);
+            //-10000
+            _renderTarget.DrawLine(new RawVector2(40, (renderControl.ClientSize.Height - 20) * 2 / 3),
+                new RawVector2(45, (renderControl.ClientSize.Height - 20) * 2 / 3), _blackBrush);
+            _renderTarget.DrawText("-10000", _blackTextFormat, new RawRectangleF(1, (renderControl.ClientSize.Height - 20) * 2 / 3 + 3, 36, (renderControl.ClientSize.Height - 20) * 2 / 3 - 7), _blackBrush);
+            //-20000
+            _renderTarget.DrawLine(new RawVector2(40, (renderControl.ClientSize.Height - 20) * 5 / 6),
+                new RawVector2(45, (renderControl.ClientSize.Height - 20) * 5 / 6), _blackBrush);
+            _renderTarget.DrawText("-20000", _blackTextFormat, new RawRectangleF(1, (renderControl.ClientSize.Height - 20) * 5 / 6 + 3, 36, (renderControl.ClientSize.Height - 20) * 5 / 6 - 7), _blackBrush);
+            //-30000
+            _renderTarget.DrawText("-30000", _blackTextFormat, new RawRectangleF(1, renderControl.ClientSize.Height - 17, 36, renderControl.ClientSize.Height - 27), _blackBrush);
+            //10000
+            _renderTarget.DrawLine(new RawVector2(40, (renderControl.ClientSize.Height - 20) / 3),
+                new RawVector2(45, (renderControl.ClientSize.Height - 20) / 3), _blackBrush);
+            _renderTarget.DrawText("10000", _blackTextFormat, new RawRectangleF(6, (renderControl.ClientSize.Height - 20) / 3 + 3, 36, (renderControl.ClientSize.Height - 20) / 3 - 7), _blackBrush);
+            //20000
+            _renderTarget.DrawLine(new RawVector2(40, (renderControl.ClientSize.Height - 20) / 6),
+                new RawVector2(45, (renderControl.ClientSize.Height - 20) / 6), _blackBrush);
+            _renderTarget.DrawText("20000", _blackTextFormat, new RawRectangleF(6, (renderControl.ClientSize.Height - 20) / 6 + 3, 36, (renderControl.ClientSize.Height - 20) / 6 - 7), _blackBrush);
+            //30000
+            _renderTarget.DrawText("30000", _blackTextFormat, new RawRectangleF(6, 3, 36, -7), _blackBrush);
         }
         private void DrawWave()
         {
             if (_wave != null)
             {
-                DrawSeries(_wave, _blackBrush, renderControl.ClientSize.Height / 2.0f, renderControl.ClientSize.Height / 65535.0f);
+                DrawSeries(_wave, _blackBrush, renderControl.ClientSize.Height / 2.0f - 10.0f, renderControl.ClientSize.Height / 65535.0f);
             }
         }
         private void DrawFrameSepa()
         {
-            if (Setting.FrameLength * _scale_times < 10)
+            if (Setting.FrameLength * _scale_times_X < 10)
                 return;
             //相邻两分隔线的间距
             int distance = Setting.FrameLength / 2;
-            for (int i = (int)_minX - (int)_minX % distance + distance; i < (int)_minX + (renderControl.ClientSize.Width - 40) / _scale_times; i += distance)
+            for (int i = (int)_minX - (int)_minX % distance + distance; i < (int)_minX + (renderControl.ClientSize.Width - 40) / _scale_times_X; i += distance)
             {
-                float x = (i - _minX) * _scale_times + 40.0f;
+                float x = (i - _minX) * _scale_times_X + 40.0f;
                 int order = i / distance;
                 string orderinary = "No." + order.ToString();
                 if (order % 2 == 0)
@@ -249,16 +276,16 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 int beginFrame = (int)(this._minX * 2 / Setting.FrameLength);
-                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times) * 2 / Setting.FrameLength)-1;
+                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X) * 2 / Setting.FrameLength)-1;
                 if (beginFrame > 0) beginFrame--;
                 try
                 {
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if(i%2==0)
-                            DrawSeriesHalf(_spec[i], _redBrush, 20, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _redBrush, 0, 5e-4f);
                         else
-                            DrawSeriesHalf(_spec[i], _greenBrush, 20, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _greenBrush, 0, 5e-4f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -269,16 +296,16 @@ namespace WaveViewer.MyControl
             if (_specspec != null)
             {
                 int beginFrame = (int)(this._minX * 2 / Setting.FrameLength);
-                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times) * 2 / Setting.FrameLength) - 1;
+                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X) * 2 / Setting.FrameLength) - 1;
                 if (beginFrame > 0) beginFrame--;
                 try
                 {
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_specspec[i], _greenBrush, 100, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _greenBrush, 75, 1e-5f);
                         else
-                            DrawSeriesHalf(_specspec[i], _redBrush, 100, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _redBrush, 75, 1e-5f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -289,7 +316,7 @@ namespace WaveViewer.MyControl
             if (_cepstrum != null)
             {
                 int beginFrame = (int)(this._minX * 2 / Setting.FrameLength);
-                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times) * 2 / Setting.FrameLength) - 1;
+                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X) * 2 / Setting.FrameLength) - 1;
                 if (beginFrame > 0) beginFrame--;
                 try
                 {
@@ -333,8 +360,7 @@ namespace WaveViewer.MyControl
                 }
                 return true;
             }
-            else
-                return false;
+            return false;
         }
         public bool CalculateSpecSpec()
         {
@@ -364,8 +390,7 @@ namespace WaveViewer.MyControl
                 }
                 return true;
             }
-            else
-                return false;
+            return false;
         }
         public bool CalculateCepstrum()
         {
@@ -378,17 +403,10 @@ namespace WaveViewer.MyControl
 
                 for (int frame = 0; frame < _spec.Length; frame++)
                 {
-                    float average = 0;
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        average += fin[i] = (float)Math.Log10(_spec[frame].data[i]);
+                        fin[i] = (float)Math.Log10(_spec[frame].data[i]);
                     }
-                    average /= Setting.FrameLength;
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        fin[i] -= average;
-                    }
-
                     plan.Execute();
                     _cepstrum[frame] = new MySeries();
                     _cepstrum[frame].begin = (frame + 1) * Setting.FrameLength / 2;
@@ -401,8 +419,7 @@ namespace WaveViewer.MyControl
                 }
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         private void MyChart_Paint(object sender, PaintEventArgs e)
@@ -435,11 +452,11 @@ namespace WaveViewer.MyControl
             }
             if (_chosenAreaMin < _chosenAreaMax)
             {
-                var x = (_chosenAreaMin - _minX) * _scale_times + 40.0f;
+                var x = (_chosenAreaMin - _minX) * _scale_times_X + 40.0f;
                 if (x > 40 && x < renderControl.ClientSize.Width)
                     _renderTarget.DrawLine(new RawVector2(x, 0),
                         new RawVector2(x, this.Height), _blueBrush, 2);
-                x = (_chosenAreaMax - _minX) * _scale_times + 40.0f;
+                x = (_chosenAreaMax - _minX) * _scale_times_X + 40.0f;
                 if (x > 40 && x < renderControl.ClientSize.Width)
                     _renderTarget.DrawLine(new RawVector2(x, 0),
                         new RawVector2(x, this.Height), _blueBrush, 2);
@@ -455,7 +472,7 @@ namespace WaveViewer.MyControl
                 {
                     _renderTarget.Resize(new Size2(this.Width, this.Height));
                     renderControl.Height = this.Height;
-                    renderControl.Width = this.Width;
+                    renderControl.Width = this.Width-8;
                     this.Refresh();
                 }
                 catch (Exception) { }
@@ -490,20 +507,18 @@ namespace WaveViewer.MyControl
 
         private void renderControl_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button != MouseButtons.Left) return;
+            _isMouseMoving = false;
+            _chosenAreaMin = (int)(this._minX + (Math.Min(_mouseStartPoint.X, _mouseEndPoint.X) - 40) / this._scale_times_X);
+            _chosenAreaMax = (int)(this._minX + Math.Ceiling((Math.Max(_mouseStartPoint.X, _mouseEndPoint.X) - 40) / this._scale_times_X));
+            if (_wave != null)
             {
-                _isMouseMoving = false;
-                _chosenAreaMin = (int)(this._minX + (Math.Min(_mouseStartPoint.X, _mouseEndPoint.X) - 40) / this._scale_times);
-                _chosenAreaMax = (int)(this._minX + Math.Ceiling((Math.Max(_mouseStartPoint.X, _mouseEndPoint.X) - 40) / this._scale_times));
-                if (_wave != null)
-                {
-                    if (_chosenAreaMin < 0)
-                        _chosenAreaMin = 0;
-                    if (_chosenAreaMax > _wave.data.Length)
-                        _chosenAreaMax = _wave.data.Length;
-                }
-                this.Refresh();
+                if (_chosenAreaMin < 0)
+                    _chosenAreaMin = 0;
+                if (_chosenAreaMax > _wave.data.Length)
+                    _chosenAreaMax = _wave.data.Length;
             }
+            this.Refresh();
         }
     }
 }
