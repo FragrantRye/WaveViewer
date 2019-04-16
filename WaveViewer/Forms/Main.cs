@@ -136,6 +136,14 @@ namespace WaveViewer.Forms
             Setting.ShowSpecSpec = ((ToolStripMenuItem)sender).Checked;
             myChart1.Refresh();
         }
+
+        private void 对数频谱ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).Checked = !((ToolStripMenuItem)sender).Checked;
+            Setting.ShowLogSpec = ((ToolStripMenuItem)sender).Checked;
+            myChart1.Refresh();
+        }
+
         private void 倒谱ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ((ToolStripMenuItem)sender).Checked = !((ToolStripMenuItem)sender).Checked;
@@ -251,6 +259,30 @@ namespace WaveViewer.Forms
             trackBar_scale.Value = value;
             trackBar_scale.Focus();
             trackBar_scale_Scroll(trackBar_scale, null);
+        }
+
+        private void TrackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            myChart1.SpecMove = ((TrackBar)sender).Value;
+            myChart1.Refresh();
+        }
+
+        private void TrackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            myChart1.SpecSpecMove = ((TrackBar)sender).Value;
+            myChart1.Refresh();
+        }
+
+        private void TrackBar3_ValueChanged(object sender, EventArgs e)
+        {
+            myChart1.LogSpecMove = ((TrackBar)sender).Value;
+            myChart1.Refresh();
+        }
+
+        private void TrackBar4_ValueChanged(object sender, EventArgs e)
+        {
+            myChart1.CepsMove = ((TrackBar)sender).Value;
+            myChart1.Refresh();
         }
     }
 }

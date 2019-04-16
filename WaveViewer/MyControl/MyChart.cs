@@ -44,6 +44,22 @@ namespace WaveViewer.MyControl
         /// </summary>
         private float _minX;
         /// <summary>
+        /// 频谱图位移量
+        /// </summary>
+        public int SpecMove = 0;
+        /// <summary>
+        /// 频谱的频谱图位移量
+        /// </summary>
+        public int SpecSpecMove = 0;
+        /// <summary>
+        /// 对数频谱图位移量
+        /// </summary>
+        public int LogSpecMove = 0;
+        /// <summary>
+        /// 倒谱图位移量
+        /// </summary>
+        public int CepsMove = 0;
+        /// <summary>
         /// 平均每采样点间隔的像素数
         /// </summary>
         private float _scale_times_X;
@@ -167,6 +183,19 @@ namespace WaveViewer.MyControl
                     brush);
             }
         }
+        private void DrawSeriesHalfLog(MySeries s, Brush brush, float moveY, float scale)
+        {
+            int begin, end;
+            begin = s.begin < this._minX ? (int)this._minX : s.begin;
+            float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
+            end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
+            for (int i = begin + 1; i < end && i - s.begin <= Setting.FrameLength / 2; i++)
+            {
+                _renderTarget.DrawLine(getPixelPoint(i - 1, (float)Math.Log10(s.data[i - s.begin - 1]), moveY, scale),
+                    getPixelPoint(i, (float)Math.Log10(s.data[i - s.begin]), moveY, scale),
+                    brush);
+            }
+        }
 
         private void DrawGrid()
         {
@@ -283,9 +312,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if(i%2==0)
-                            DrawSeriesHalf(_spec[i], _redBrush, 0, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _redBrush, 2*SpecMove, 5e-4f);
                         else
-                            DrawSeriesHalf(_spec[i], _greenBrush, 0, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _greenBrush, 2*SpecMove, 5e-4f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -303,9 +332,29 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_specspec[i], _greenBrush, 75, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _greenBrush, 50 + 2 * SpecSpecMove, 1e-5f);
                         else
-                            DrawSeriesHalf(_specspec[i], _redBrush, 75, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _redBrush, 50 + 2 * SpecSpecMove, 1e-5f);
+                    }
+                }
+                catch (IndexOutOfRangeException) { return; }
+            }
+        }
+        private void DrawLogSpec()
+        {
+            if (_spec != null)
+            {
+                int beginFrame = (int)(this._minX * 2 / Setting.FrameLength);
+                int endFrame = (int)((this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X) * 2 / Setting.FrameLength) - 1;
+                if (beginFrame > 0) beginFrame--;
+                try
+                {
+                    for (int i = beginFrame; i <= endFrame; i++)
+                    {
+                        if (i % 2 == 0)
+                            DrawSeriesHalfLog(_spec[i], _greenBrush, 80 + 2 * LogSpecMove, 20);
+                        else
+                            DrawSeriesHalfLog(_spec[i], _redBrush, 80 + 2 * LogSpecMove, 20);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -323,9 +372,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_cepstrum[i], _redBrush, 150, 1);
+                            DrawSeriesHalf(_cepstrum[i], _redBrush, 140 + 2 * CepsMove, 2.0f);
                         else
-                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 150, 1);
+                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 140 + 2 * CepsMove, 2.0f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -405,14 +454,15 @@ namespace WaveViewer.MyControl
                 {
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        fin[i] = (float)Math.Log10(_spec[frame].data[i]);
+                        fin[i] = 1+(float)Math.Log10(_spec[frame].data[i]);
                     }
                     plan.Execute();
                     _cepstrum[frame] = new MySeries();
                     _cepstrum[frame].begin = (frame + 1) * Setting.FrameLength / 2;
                     _cepstrum[frame].end = _cepstrum[frame].begin + Setting.FrameLength - 1;
                     _cepstrum[frame].data = new float[Setting.FrameLength];
-                    for (int i = 0; i < fout.Length; i++)
+                    _cepstrum[frame].data[0] = 0.0f;
+                    for (int i = 1; i < fout.Length; i++)
                     {
                         _cepstrum[frame].data[i] = Util.Complex.Abs(fout[i]);
                     }
@@ -436,6 +486,8 @@ namespace WaveViewer.MyControl
                 DrawSpec();
             if (Setting.ShowSpecSpec)
                 DrawSpecSpec();
+            if (Setting.ShowLogSpec)
+                DrawLogSpec();
             if (Setting.ShowCepstrum)
                 DrawCepstrum();
 

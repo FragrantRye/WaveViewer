@@ -43,7 +43,7 @@
             this.帧分隔线toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.频谱ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.频谱的频谱ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.对数振幅谱ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.对数频谱ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.倒谱ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.帧长设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +62,15 @@
             this.trackBar_scale = new System.Windows.Forms.TrackBar();
             this.button_play = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.label3 = new System.Windows.Forms.Label();
             this.myChart1 = new WaveViewer.MyControl.MyChart();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.trackBar4 = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -70,6 +78,10 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_move)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_scale)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -156,7 +168,7 @@
             this.帧分隔线toolStripMenuItem,
             this.频谱ToolStripMenuItem1,
             this.频谱的频谱ToolStripMenuItem1,
-            this.对数振幅谱ToolStripMenuItem,
+            this.对数频谱ToolStripMenuItem,
             this.倒谱ToolStripMenuItem1});
             this.显示ToolStripMenuItem.Name = "显示ToolStripMenuItem";
             this.显示ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
@@ -190,11 +202,12 @@
             this.频谱的频谱ToolStripMenuItem1.Text = "频谱的频谱";
             this.频谱的频谱ToolStripMenuItem1.Click += new System.EventHandler(this.频谱的频谱ToolStripMenuItem1_Click);
             // 
-            // 对数振幅谱ToolStripMenuItem
+            // 对数频谱ToolStripMenuItem
             // 
-            this.对数振幅谱ToolStripMenuItem.Name = "对数振幅谱ToolStripMenuItem";
-            this.对数振幅谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.对数振幅谱ToolStripMenuItem.Text = "对数振幅谱";
+            this.对数频谱ToolStripMenuItem.Name = "对数频谱ToolStripMenuItem";
+            this.对数频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.对数频谱ToolStripMenuItem.Text = "对数频谱";
+            this.对数频谱ToolStripMenuItem.Click += new System.EventHandler(this.对数频谱ToolStripMenuItem_Click);
             // 
             // 倒谱ToolStripMenuItem1
             // 
@@ -278,6 +291,14 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
+            this.splitContainer1.Panel2.Controls.Add(this.label5);
+            this.splitContainer1.Panel2.Controls.Add(this.label4);
+            this.splitContainer1.Panel2.Controls.Add(this.trackBar4);
+            this.splitContainer1.Panel2.Controls.Add(this.trackBar3);
+            this.splitContainer1.Panel2.Controls.Add(this.trackBar2);
+            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.trackBar1);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar_move);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
@@ -285,7 +306,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.textBox_move);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar_scale);
             this.splitContainer1.Size = new System.Drawing.Size(869, 600);
-            this.splitContainer1.SplitterDistance = 456;
+            this.splitContainer1.SplitterDistance = 458;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -296,7 +317,7 @@
             this.trackBar_move.Location = new System.Drawing.Point(178, 33);
             this.trackBar_move.Maximum = 100000;
             this.trackBar_move.Name = "trackBar_move";
-            this.trackBar_move.Size = new System.Drawing.Size(511, 45);
+            this.trackBar_move.Size = new System.Drawing.Size(483, 45);
             this.trackBar_move.SmallChange = 10;
             this.trackBar_move.TabIndex = 6;
             this.trackBar_move.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -344,7 +365,7 @@
             this.trackBar_scale.Maximum = 500;
             this.trackBar_scale.Minimum = -664;
             this.trackBar_scale.Name = "trackBar_scale";
-            this.trackBar_scale.Size = new System.Drawing.Size(511, 45);
+            this.trackBar_scale.Size = new System.Drawing.Size(483, 45);
             this.trackBar_scale.TabIndex = 1;
             this.trackBar_scale.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_scale.Scroll += new System.EventHandler(this.trackBar_scale_Scroll);
@@ -375,6 +396,27 @@
             this.button_stop.UseVisualStyleBackColor = false;
             this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
+            // trackBar1
+            // 
+            this.trackBar1.LargeChange = 3;
+            this.trackBar1.Location = new System.Drawing.Point(667, -1);
+            this.trackBar1.Maximum = 20;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar1.Size = new System.Drawing.Size(45, 126);
+            this.trackBar1.TabIndex = 7;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(674, 120);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "频谱";
+            // 
             // myChart1
             // 
             this.myChart1.Location = new System.Drawing.Point(0, 0);
@@ -383,6 +425,69 @@
             this.myChart1.Scale_times = 1F;
             this.myChart1.Size = new System.Drawing.Size(867, 454);
             this.myChart1.TabIndex = 4;
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.LargeChange = 3;
+            this.trackBar2.Location = new System.Drawing.Point(718, -1);
+            this.trackBar2.Maximum = 20;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar2.Size = new System.Drawing.Size(45, 126);
+            this.trackBar2.TabIndex = 9;
+            this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar2.ValueChanged += new System.EventHandler(this.TrackBar2_ValueChanged);
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.LargeChange = 3;
+            this.trackBar3.Location = new System.Drawing.Point(774, -1);
+            this.trackBar3.Maximum = 20;
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar3.Size = new System.Drawing.Size(45, 126);
+            this.trackBar3.TabIndex = 10;
+            this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar3.ValueChanged += new System.EventHandler(this.TrackBar3_ValueChanged);
+            // 
+            // trackBar4
+            // 
+            this.trackBar4.LargeChange = 3;
+            this.trackBar4.Location = new System.Drawing.Point(822, -1);
+            this.trackBar4.Maximum = 20;
+            this.trackBar4.Name = "trackBar4";
+            this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar4.Size = new System.Drawing.Size(45, 126);
+            this.trackBar4.TabIndex = 11;
+            this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar4.ValueChanged += new System.EventHandler(this.TrackBar4_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(703, 120);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "频谱的频谱";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(769, 120);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "对数频谱";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(828, 120);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "倒谱";
             // 
             // Main
             // 
@@ -408,6 +513,10 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_move)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_scale)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -443,10 +552,18 @@
         private System.Windows.Forms.ToolStripMenuItem 自定义ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 帧分隔线toolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 倒谱ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 对数振幅谱ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 对数频谱ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 倒谱ToolStripMenuItem1;
         private System.Windows.Forms.TrackBar trackBar_move;
         private System.Windows.Forms.Button button_play;
         private System.Windows.Forms.Button button_stop;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar trackBar2;
     }
 }

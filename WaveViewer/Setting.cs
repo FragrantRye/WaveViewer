@@ -15,6 +15,7 @@ namespace WaveViewer
         public static bool ShowFrameSeparator { get; set; }
         public static bool ShowSpec { get; set; }
         public static bool ShowSpecSpec { get; set; }
+        public static bool ShowLogSpec { get; set; }
         public static bool ShowCepstrum { get; set; }
         public static int FrameLength { get; set; }
         public static int DPI { get; set; }
