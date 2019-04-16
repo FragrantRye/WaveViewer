@@ -272,7 +272,7 @@ namespace WaveViewer.MyControl
         {
             if (_wave != null)
             {
-                DrawSeries(_wave, _blackBrush, renderControl.ClientSize.Height / 2.0f - 10.0f, renderControl.ClientSize.Height / 65535.0f);
+                DrawSeries(_wave, _blackBrush, renderControl.ClientSize.Height / 2.0f - 10.0f, (renderControl.ClientSize.Height - 20.0f) / 65535.0f);
             }
         }
         private void DrawFrameSepa()
@@ -394,7 +394,7 @@ namespace WaveViewer.MyControl
                 {
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        fin[i] = _wave.data[frame * Setting.FrameLength / 2 + i];
+                        fin[i] = _wave.data[frame * Setting.FrameLength / 2 + i] * Hamming_Window(i);
                     }
 
                     plan.Execute();
@@ -571,6 +571,11 @@ namespace WaveViewer.MyControl
                     _chosenAreaMax = _wave.data.Length;
             }
             this.Refresh();
+        }
+
+        private static float Hamming_Window(int i)
+        {
+            return (float)(0.54 - 0.46 * Math.Cos(2 * Math.PI * i / (Setting.FrameLength - 1)));
         }
     }
 }
