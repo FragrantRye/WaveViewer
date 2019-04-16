@@ -74,6 +74,7 @@ namespace WaveViewer.Forms
             {
                 splitContainer1.Size = new Size(this.Width, this.Height - 65);
                 myChart1.Size = new Size(splitContainer1.Panel1.Width, splitContainer1.Panel1.Height);
+                trackBar_move.Width = trackBar_scale.Width = this.Width - 402;
             }
         }
 
