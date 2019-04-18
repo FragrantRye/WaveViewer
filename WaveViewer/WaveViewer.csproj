@@ -102,6 +102,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -114,8 +116,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyControl\MySeries.cs" />
+    <Compile Include="Numerics\ArrayExtensions.cs" />
+    <Compile Include="Numerics\Complex32.cs" />
+    <Compile Include="Numerics\ComplexExtensions.cs" />
+    <Compile Include="Numerics\Constants.cs" />
+    <Compile Include="Numerics\Control.cs" />
+    <Compile Include="Numerics\Euclid.cs" />
+    <Compile Include="Numerics\GlobalizationHelper.cs" />
+    <Compile Include="Numerics\Permutation.cs" />
+    <Compile Include="Numerics\Precision.cs" />
+    <Compile Include="Numerics\Precision.Equality.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\FourierTransformControl.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\IFourierTransformProvider.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\Managed\ManagedFourierTransformProvider.Bluestein.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\Managed\ManagedFourierTransformProvider.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\Managed\ManagedFourierTransformProvider.Radix2.cs" />
+    <Compile Include="Numerics\Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />
+    <Compile Include="Numerics\Resources.Designer.cs" />
+    <Compile Include="Numerics\SpecialFunctions\Stability.cs" />
+    <Compile Include="Numerics\Threading\CommonParallel.cs" />
+    <Compile Include="Numerics\Trigonometry.cs" />
     <Compile Include="Setting.cs" />
-    <Compile Include="Util\FFTW.cs" />
     <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,12 +194,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="libfftw3-3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libfftw3f-3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Resource\play.png" />
     <None Include="Resource\stop.png" />
     <Content Include="Resource\wav.ico" />

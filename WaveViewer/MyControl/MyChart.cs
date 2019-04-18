@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
+using MathNet.Numerics.Providers.FourierTransform;
+using Complex = System.Numerics.Complex;
 using Brush = SharpDX.Direct2D1.Brush;
 
 namespace WaveViewer.MyControl
@@ -70,6 +72,8 @@ namespace WaveViewer.MyControl
         private SolidColorBrush _blackBrush, _greenBrush, _blueBrush, _redBrush, _pinkBrush;
         private SharpDX.DirectWrite.TextFormat _blackTextFormat;
 
+        private IFourierTransformProvider FFT;
+
         [Description("图表X坐标的最小值")]
         public float MinX
         {
@@ -109,6 +113,7 @@ namespace WaveViewer.MyControl
         {
             InitializeComponent();
             InitRender();
+            FFT= FourierTransformControl.CreateManaged();
         }
         public void Clear()
         {
@@ -312,9 +317,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if(i%2==0)
-                            DrawSeriesHalf(_spec[i], _redBrush, 2*SpecMove, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _redBrush, 2*SpecMove, 1);
                         else
-                            DrawSeriesHalf(_spec[i], _greenBrush, 2*SpecMove, 5e-4f);
+                            DrawSeriesHalf(_spec[i], _greenBrush, 2*SpecMove, 1);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -332,9 +337,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_specspec[i], _greenBrush, 50 + 2 * SpecSpecMove, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _greenBrush, 50 + 2 * SpecSpecMove, 1);
                         else
-                            DrawSeriesHalf(_specspec[i], _redBrush, 50 + 2 * SpecSpecMove, 1e-5f);
+                            DrawSeriesHalf(_specspec[i], _redBrush, 50 + 2 * SpecSpecMove, 1);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -386,25 +391,22 @@ namespace WaveViewer.MyControl
             if (_wave != null)
             {
                 _spec = new MySeries[_wave.end * 2 / Setting.FrameLength - 1];
-                Util.Complex[] fin = new Util.Complex[Setting.FrameLength];
-                Util.Complex[] fout = new Util.Complex[Setting.FrameLength];
-                Util.FFTW plan = new Util.FFTW(fin, fout, Util.FFTW.Sign.FFTW_FORWARD);
+                Complex[] buff = new Complex[Setting.FrameLength];
 
                 for (int frame = 0; frame < _spec.Length; frame++)
                 {
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        fin[i] = _wave.data[frame * Setting.FrameLength / 2 + i] * Hamming_Window(i);
+                        buff[i] = _wave.data[frame * Setting.FrameLength / 2 + i] * Hamming_Window(i);
                     }
-
-                    plan.Execute();
+                    FFT.Forward(buff, FourierTransformScaling.ForwardScaling);
                     _spec[frame] = new MySeries();
                     _spec[frame].begin = (frame + 1) * Setting.FrameLength / 2;
                     _spec[frame].end = _spec[frame].begin + Setting.FrameLength - 1;
                     _spec[frame].data = new float[Setting.FrameLength];
-                    for (int i = 0; i < fout.Length; i++)
+                    for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        _spec[frame].data[i] = Util.Complex.Abs(fout[i]);
+                        _spec[frame].data[i] = (float)Complex.Abs(buff[i]);
                     }
                 }
                 return true;
@@ -416,25 +418,23 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 _specspec = new MySeries[_spec.Length];
-                Util.Complex[] fin = new Util.Complex[Setting.FrameLength];
-                Util.Complex[] fout = new Util.Complex[Setting.FrameLength];
-                Util.FFTW plan = new Util.FFTW(fin, fout, Util.FFTW.Sign.FFTW_FORWARD);
+                Complex[] buff = new Complex[Setting.FrameLength];
 
                 for (int frame = 0; frame < _spec.Length; frame++)
                 {
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        fin[i] = _spec[frame].data[i];
+                        buff[i] = _spec[frame].data[i];
                     }
 
-                    plan.Execute();
+                    FFT.Forward(buff, FourierTransformScaling.ForwardScaling);
                     _specspec[frame] = new MySeries();
                     _specspec[frame].begin = (frame + 1) * Setting.FrameLength / 2;
                     _specspec[frame].end = _specspec[frame].begin + Setting.FrameLength - 1;
                     _specspec[frame].data = new float[Setting.FrameLength];
-                    for (int i = 0; i < fout.Length; i++)
+                    for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        _specspec[frame].data[i] = Util.Complex.Abs(fout[i]);
+                        _specspec[frame].data[i] = (float)Complex.Abs(buff[i]);
                     }
                 }
                 return true;
@@ -446,25 +446,22 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 _cepstrum = new MySeries[_spec.Length];
-                Util.Complex[] fin = new Util.Complex[Setting.FrameLength];
-                Util.Complex[] fout = new Util.Complex[Setting.FrameLength];
-                Util.FFTW plan = new Util.FFTW(fin, fout, Util.FFTW.Sign.FFTW_BACKWARD);
+                Complex[] buff = new Complex[Setting.FrameLength];
 
                 for (int frame = 0; frame < _spec.Length; frame++)
                 {
                     for (int i = 0; i < Setting.FrameLength; i++)
                     {
-                        fin[i] = 1+(float)Math.Log10(_spec[frame].data[i]);
+                        buff[i] = 1 + (float)Math.Log(_spec[frame].data[i]);
                     }
-                    plan.Execute();
+                    FFT.Backward(buff, FourierTransformScaling.NoScaling);
                     _cepstrum[frame] = new MySeries();
                     _cepstrum[frame].begin = (frame + 1) * Setting.FrameLength / 2;
                     _cepstrum[frame].end = _cepstrum[frame].begin + Setting.FrameLength - 1;
                     _cepstrum[frame].data = new float[Setting.FrameLength];
-                    _cepstrum[frame].data[0] = 0.0f;
-                    for (int i = 1; i < fout.Length; i++)
+                    for (int i = 1; i < Setting.FrameLength; i++)
                     {
-                        _cepstrum[frame].data[i] = Util.Complex.Abs(fout[i]);
+                        _cepstrum[frame].data[i] = (float)Complex.Abs(buff[i]);
                     }
                 }
                 return true;
