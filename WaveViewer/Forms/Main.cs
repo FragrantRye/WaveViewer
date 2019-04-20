@@ -16,6 +16,7 @@ namespace WaveViewer.Forms
             InitializeComponent();
             Setting.FrameLength = 512;
             toolStripMenuItem5.Checked = true;
+            myChart1.specFinish += () => { 波形ToolStripMenuItem_Click(波形ToolStripMenuItem, null); };
         }
         private void AllMenuInitial(bool isOpen)
         {
