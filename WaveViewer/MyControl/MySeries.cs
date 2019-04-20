@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WaveViewer.MyControl
 {
-    class MySeries
+    public class MySeries
     {
         public int begin, end;
         public float[] data;

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
-using MathNet.Numerics.Providers.FourierTransform;
+using WaveViewer.Forms;
 using Complex = System.Numerics.Complex;
 using Brush = SharpDX.Direct2D1.Brush;
 
@@ -72,7 +72,6 @@ namespace WaveViewer.MyControl
         private SolidColorBrush _blackBrush, _greenBrush, _blueBrush, _redBrush, _pinkBrush;
         private SharpDX.DirectWrite.TextFormat _blackTextFormat;
 
-        private IFourierTransformProvider FFT;
 
         [Description("图表X坐标的最小值")]
         public float MinX
@@ -113,7 +112,6 @@ namespace WaveViewer.MyControl
         {
             InitializeComponent();
             InitRender();
-            FFT= FourierTransformControl.CreateManaged();
         }
         public void Clear()
         {
@@ -168,7 +166,7 @@ namespace WaveViewer.MyControl
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
             float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
-            for (int i = begin + 1; i < end; i++)
+            for (int i = begin + 1; i <= end; i++)
             {
                 _renderTarget.DrawLine(getPixelPoint(i - 1, s.data[i - s.begin - 1], moveY, scale),
                     getPixelPoint(i, s.data[i - s.begin], moveY, scale),
@@ -181,7 +179,7 @@ namespace WaveViewer.MyControl
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
             float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
-            for (int i = begin + 1; i < end && i - s.begin <= Setting.FrameLength / 2; i++)
+            for (int i = begin + 1; i <= end && i - s.begin <= Setting.FrameLength / 2; i++)
             {
                 _renderTarget.DrawLine(getPixelPoint(i - 1, s.data[i - s.begin - 1], moveY, scale),
                     getPixelPoint(i, s.data[i - s.begin], moveY, scale),
@@ -194,7 +192,7 @@ namespace WaveViewer.MyControl
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
             float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
-            for (int i = begin + 1; i < end && i - s.begin <= Setting.FrameLength / 2; i++)
+            for (int i = begin + 1; i <= end && i - s.begin <= Setting.FrameLength / 2; i++)
             {
                 _renderTarget.DrawLine(getPixelPoint(i - 1, (float)Math.Log10(s.data[i - s.begin - 1]), moveY, scale),
                     getPixelPoint(i, (float)Math.Log10(s.data[i - s.begin]), moveY, scale),
@@ -316,10 +314,10 @@ namespace WaveViewer.MyControl
                 {
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
-                        if(i%2==0)
-                            DrawSeriesHalf(_spec[i], _redBrush, 2*SpecMove, 1);
+                        if (i % 2 == 0)
+                            DrawSeriesHalf(_spec[i], _redBrush, 4 * SpecMove, 1);
                         else
-                            DrawSeriesHalf(_spec[i], _greenBrush, 2*SpecMove, 1);
+                            DrawSeriesHalf(_spec[i], _greenBrush, 4 * SpecMove, 1);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -337,9 +335,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_specspec[i], _greenBrush, 50 + 2 * SpecSpecMove, 1);
+                            DrawSeriesHalf(_specspec[i], _greenBrush, 40 + 4 * SpecSpecMove, 1);
                         else
-                            DrawSeriesHalf(_specspec[i], _redBrush, 50 + 2 * SpecSpecMove, 1);
+                            DrawSeriesHalf(_specspec[i], _redBrush, 40 + 4 * SpecSpecMove, 1);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -357,9 +355,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalfLog(_spec[i], _greenBrush, 80 + 2 * LogSpecMove, 20);
+                            DrawSeriesHalfLog(_spec[i], _greenBrush, 80 + 4 * LogSpecMove, 20);
                         else
-                            DrawSeriesHalfLog(_spec[i], _redBrush, 80 + 2 * LogSpecMove, 20);
+                            DrawSeriesHalfLog(_spec[i], _redBrush, 80 + 4 * LogSpecMove, 20);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -377,9 +375,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_cepstrum[i], _redBrush, 140 + 2 * CepsMove, 2.0f);
+                            DrawSeriesHalf(_cepstrum[i], _redBrush, 120 + 4 * CepsMove, 2.0f);
                         else
-                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 140 + 2 * CepsMove, 2.0f);
+                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 120 + 4 * CepsMove, 2.0f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -390,25 +388,7 @@ namespace WaveViewer.MyControl
         {
             if (_wave != null)
             {
-                _spec = new MySeries[_wave.end * 2 / Setting.FrameLength - 1];
-                Complex[] buff = new Complex[Setting.FrameLength];
-
-                for (int frame = 0; frame < _spec.Length; frame++)
-                {
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        buff[i] = _wave.data[frame * Setting.FrameLength / 2 + i] * Hamming_Window(i);
-                    }
-                    FFT.Forward(buff, FourierTransformScaling.ForwardScaling);
-                    _spec[frame] = new MySeries();
-                    _spec[frame].begin = (frame + 1) * Setting.FrameLength / 2;
-                    _spec[frame].end = _spec[frame].begin + Setting.FrameLength - 1;
-                    _spec[frame].data = new float[Setting.FrameLength];
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        _spec[frame].data[i] = (float)Complex.Abs(buff[i]);
-                    }
-                }
+                _spec = ProgressDlg.CalculateSpec(_wave);
                 return true;
             }
             return false;
@@ -417,26 +397,7 @@ namespace WaveViewer.MyControl
         {
             if (_spec != null)
             {
-                _specspec = new MySeries[_spec.Length];
-                Complex[] buff = new Complex[Setting.FrameLength];
-
-                for (int frame = 0; frame < _spec.Length; frame++)
-                {
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        buff[i] = _spec[frame].data[i];
-                    }
-
-                    FFT.Forward(buff, FourierTransformScaling.ForwardScaling);
-                    _specspec[frame] = new MySeries();
-                    _specspec[frame].begin = (frame + 1) * Setting.FrameLength / 2;
-                    _specspec[frame].end = _specspec[frame].begin + Setting.FrameLength - 1;
-                    _specspec[frame].data = new float[Setting.FrameLength];
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        _specspec[frame].data[i] = (float)Complex.Abs(buff[i]);
-                    }
-                }
+                _specspec = ProgressDlg.CalculateSpecSpec(_spec);
                 return true;
             }
             return false;
@@ -445,25 +406,7 @@ namespace WaveViewer.MyControl
         {
             if (_spec != null)
             {
-                _cepstrum = new MySeries[_spec.Length];
-                Complex[] buff = new Complex[Setting.FrameLength];
-
-                for (int frame = 0; frame < _spec.Length; frame++)
-                {
-                    for (int i = 0; i < Setting.FrameLength; i++)
-                    {
-                        buff[i] = 1 + (float)Math.Log(_spec[frame].data[i]);
-                    }
-                    FFT.Backward(buff, FourierTransformScaling.NoScaling);
-                    _cepstrum[frame] = new MySeries();
-                    _cepstrum[frame].begin = (frame + 1) * Setting.FrameLength / 2;
-                    _cepstrum[frame].end = _cepstrum[frame].begin + Setting.FrameLength - 1;
-                    _cepstrum[frame].data = new float[Setting.FrameLength];
-                    for (int i = 1; i < Setting.FrameLength; i++)
-                    {
-                        _cepstrum[frame].data[i] = (float)Complex.Abs(buff[i]);
-                    }
-                }
+                _cepstrum = ProgressDlg.CalculateCepstrum(_spec);
                 return true;
             }
             return false;
@@ -568,11 +511,6 @@ namespace WaveViewer.MyControl
                     _chosenAreaMax = _wave.data.Length;
             }
             this.Refresh();
-        }
-
-        private static float Hamming_Window(int i)
-        {
-            return (float)(0.54 - 0.46 * Math.Cos(2 * Math.PI * i / (Setting.FrameLength - 1)));
         }
     }
 }

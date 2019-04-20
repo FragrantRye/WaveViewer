@@ -123,6 +123,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ProgressDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProgressDlg.Designer.cs">
+      <DependentUpon>ProgressDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyControl\MySeries.cs" />
     <Compile Include="Numerics\ArrayExtensions.cs" />
     <Compile Include="Numerics\Complex32.cs" />
@@ -163,6 +169,7 @@
     <Compile Include="MyControl\MyChart.Designer.cs">
       <DependentUpon>MyChart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\HammingWindow.cs" />
     <Compile Include="Util\PCMPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProgressDlg.resx">
+      <DependentUpon>ProgressDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyControl\MyChart.resx">
       <DependentUpon>MyChart.cs</DependentUpon>
