@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,11 +6,11 @@ using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
 using WaveViewer.Forms;
-using Complex = System.Numerics.Complex;
 using Brush = SharpDX.Direct2D1.Brush;
 
 namespace WaveViewer.MyControl
 {
+    public delegate void CalculateFinish();
     public partial class MyChart : UserControl
     {
         //波形数据
@@ -21,6 +20,8 @@ namespace WaveViewer.MyControl
         //倒谱数据
         private MySeries[] _cepstrum;
         private int _chosenAreaMin, _chosenAreaMax;
+        //计算完成事件
+        public CalculateFinish specFinish, specspecFinish, cepstrumFinish;
         /// <summary>
         /// 鼠标选择区域的最小值
         /// </summary>
@@ -389,6 +390,7 @@ namespace WaveViewer.MyControl
             if (_wave != null)
             {
                 _spec = ProgressDlg.CalculateSpec(_wave);
+                specFinish?.Invoke();
                 return true;
             }
             return false;
@@ -398,6 +400,7 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 _specspec = ProgressDlg.CalculateSpecSpec(_spec);
+                specspecFinish?.Invoke();
                 return true;
             }
             return false;
@@ -407,6 +410,7 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 _cepstrum = ProgressDlg.CalculateCepstrum(_spec);
+                cepstrumFinish?.Invoke();
                 return true;
             }
             return false;

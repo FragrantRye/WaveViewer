@@ -16,6 +16,9 @@ namespace WaveViewer.Forms
             InitializeComponent();
             Setting.FrameLength = 512;
             toolStripMenuItem5.Checked = true;
+            myChart1.specFinish += () => { if(!频谱ToolStripMenuItem1.Checked) 频谱ToolStripMenuItem1_Click(频谱ToolStripMenuItem1, null); };
+            myChart1.specspecFinish += () => { if (!频谱的频谱ToolStripMenuItem1.Checked) 频谱的频谱ToolStripMenuItem1_Click(频谱的频谱ToolStripMenuItem1, null); };
+            myChart1.cepstrumFinish += () => { if (!倒谱ToolStripMenuItem1.Checked) 倒谱ToolStripMenuItem1_Click(倒谱ToolStripMenuItem1, null); };
         }
         private void AllMenuInitial(bool isOpen)
         {
@@ -28,6 +31,7 @@ namespace WaveViewer.Forms
             波形ToolStripMenuItem.Checked = isOpen;
             频谱ToolStripMenuItem1.Checked = false;
             频谱的频谱ToolStripMenuItem1.Checked = false;
+            对数频谱ToolStripMenuItem.Checked = false;
             倒谱ToolStripMenuItem1.Checked = false;
 
             频谱ToolStripMenuItem.Checked = false;
