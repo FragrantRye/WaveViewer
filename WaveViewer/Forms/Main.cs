@@ -242,9 +242,9 @@ namespace WaveViewer.Forms
             if (e.KeyValue != 13) return;
             if (!int.TryParse(((TextBox) sender).Text, out var value))
                 value = 0;
-            if (value > trackBar_move.Maximum)
+            if (value >= trackBar_move.Maximum)
                 value = trackBar_move.Maximum;
-            if (value < trackBar_move.Minimum)
+            if (value <= trackBar_move.Minimum)
                 value = trackBar_move.Minimum;
             trackBar_move.Value = value;
             trackBar_move.Focus();
@@ -257,9 +257,9 @@ namespace WaveViewer.Forms
             if (!double.TryParse(((TextBox) sender).Text, out var times))
                 times = 1.0f;
             var value = (int) (100 * Math.Log(times, 2.0));
-            if (value > trackBar_scale.Maximum)
+            if (value >= trackBar_scale.Maximum)
                 value = trackBar_scale.Maximum;
-            if (value < trackBar_scale.Minimum)
+            if (value <= trackBar_scale.Minimum)
                 value = trackBar_scale.Minimum;
             trackBar_scale.Value = value;
             trackBar_scale.Focus();
