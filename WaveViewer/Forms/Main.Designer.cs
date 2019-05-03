@@ -94,7 +94,6 @@
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.menuStrip1.Size = new System.Drawing.Size(869, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
@@ -112,7 +111,7 @@
             // 打开ToolStripMenuItem
             // 
             this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
-            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.打开ToolStripMenuItem.Text = "打开";
             this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
             // 
@@ -120,14 +119,14 @@
             // 
             this.关闭文件ToolStripMenuItem.Enabled = false;
             this.关闭文件ToolStripMenuItem.Name = "关闭文件ToolStripMenuItem";
-            this.关闭文件ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.关闭文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.关闭文件ToolStripMenuItem.Text = "关闭文件";
             this.关闭文件ToolStripMenuItem.Click += new System.EventHandler(this.关闭文件ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -144,21 +143,21 @@
             // 频谱ToolStripMenuItem
             // 
             this.频谱ToolStripMenuItem.Name = "频谱ToolStripMenuItem";
-            this.频谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.频谱ToolStripMenuItem.Text = "频谱";
             this.频谱ToolStripMenuItem.Click += new System.EventHandler(this.频谱ToolStripMenuItem_Click);
             // 
             // 频谱的频谱ToolStripMenuItem
             // 
             this.频谱的频谱ToolStripMenuItem.Name = "频谱的频谱ToolStripMenuItem";
-            this.频谱的频谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.频谱的频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.频谱的频谱ToolStripMenuItem.Text = "频谱的频谱";
             this.频谱的频谱ToolStripMenuItem.Click += new System.EventHandler(this.频谱的频谱ToolStripMenuItem_Click);
             // 
             // 倒谱ToolStripMenuItem
             // 
             this.倒谱ToolStripMenuItem.Name = "倒谱ToolStripMenuItem";
-            this.倒谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.倒谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.倒谱ToolStripMenuItem.Text = "倒谱";
             this.倒谱ToolStripMenuItem.Click += new System.EventHandler(this.倒谱ToolStripMenuItem_Click);
             // 
@@ -178,42 +177,42 @@
             // 波形ToolStripMenuItem
             // 
             this.波形ToolStripMenuItem.Name = "波形ToolStripMenuItem";
-            this.波形ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.波形ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.波形ToolStripMenuItem.Text = "波形";
             this.波形ToolStripMenuItem.Click += new System.EventHandler(this.波形ToolStripMenuItem_Click);
             // 
             // 帧分隔线toolStripMenuItem
             // 
             this.帧分隔线toolStripMenuItem.Name = "帧分隔线toolStripMenuItem";
-            this.帧分隔线toolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.帧分隔线toolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.帧分隔线toolStripMenuItem.Text = "帧分隔线";
             this.帧分隔线toolStripMenuItem.Click += new System.EventHandler(this.帧分隔线toolStripMenuItem_Click);
             // 
             // 频谱ToolStripMenuItem1
             // 
             this.频谱ToolStripMenuItem1.Name = "频谱ToolStripMenuItem1";
-            this.频谱ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.频谱ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.频谱ToolStripMenuItem1.Text = "频谱";
             this.频谱ToolStripMenuItem1.Click += new System.EventHandler(this.频谱ToolStripMenuItem1_Click);
             // 
             // 频谱的频谱ToolStripMenuItem1
             // 
             this.频谱的频谱ToolStripMenuItem1.Name = "频谱的频谱ToolStripMenuItem1";
-            this.频谱的频谱ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.频谱的频谱ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.频谱的频谱ToolStripMenuItem1.Text = "频谱的频谱";
             this.频谱的频谱ToolStripMenuItem1.Click += new System.EventHandler(this.频谱的频谱ToolStripMenuItem1_Click);
             // 
             // 对数频谱ToolStripMenuItem
             // 
             this.对数频谱ToolStripMenuItem.Name = "对数频谱ToolStripMenuItem";
-            this.对数频谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.对数频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.对数频谱ToolStripMenuItem.Text = "对数频谱";
             this.对数频谱ToolStripMenuItem.Click += new System.EventHandler(this.对数频谱ToolStripMenuItem_Click);
             // 
             // 倒谱ToolStripMenuItem1
             // 
             this.倒谱ToolStripMenuItem1.Name = "倒谱ToolStripMenuItem1";
-            this.倒谱ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.倒谱ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.倒谱ToolStripMenuItem1.Text = "倒谱";
             this.倒谱ToolStripMenuItem1.Click += new System.EventHandler(this.倒谱ToolStripMenuItem1_Click);
             // 
@@ -233,7 +232,7 @@
             this.toolStripMenuItem6,
             this.自定义ToolStripMenuItem1});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
             this.toolStripMenuItem2.Text = "帧长设置";
             // 
             // toolStripMenuItem4
@@ -274,7 +273,7 @@
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.关于ToolStripMenuItem.Text = "关于";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
@@ -307,7 +306,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.textBox_move);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar_scale);
             this.splitContainer1.Size = new System.Drawing.Size(869, 600);
-            this.splitContainer1.SplitterDistance = 461;
+            this.splitContainer1.SplitterDistance = 462;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);

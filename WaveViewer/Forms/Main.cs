@@ -5,7 +5,6 @@ using WaveViewer.Util;
 
 namespace WaveViewer.Forms
 {
-
     public partial class Main : Form
     {
         private WAVReader _wr;

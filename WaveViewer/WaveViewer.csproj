@@ -187,9 +187,6 @@
     <EmbeddedResource Include="Forms\ProgressDlg.resx">
       <DependentUpon>ProgressDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyControl\MyChart.resx">
-      <DependentUpon>MyChart.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
