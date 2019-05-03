@@ -26,6 +26,7 @@ namespace WaveViewer.Forms
             Setting.ShowWave = isOpen;
             Setting.ShowSpec = false;
             Setting.ShowSpecSpec = false;
+            Setting.ShowLogSpec = false;
             Setting.ShowCepstrum = false;
             帧分隔线toolStripMenuItem.Checked = isOpen;
             波形ToolStripMenuItem.Checked = isOpen;
