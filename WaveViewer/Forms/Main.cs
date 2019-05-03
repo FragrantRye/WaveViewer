@@ -16,7 +16,9 @@ namespace WaveViewer.Forms
             InitializeComponent();
             Setting.FrameLength = 512;
             toolStripMenuItem5.Checked = true;
-            myChart1.specFinish += () => { 波形ToolStripMenuItem_Click(波形ToolStripMenuItem, null); };
+            myChart1.specFinish += () => { if(!频谱ToolStripMenuItem1.Checked) 频谱ToolStripMenuItem1_Click(频谱ToolStripMenuItem1, null); };
+            myChart1.specspecFinish += () => { if (!频谱的频谱ToolStripMenuItem1.Checked) 频谱的频谱ToolStripMenuItem1_Click(频谱的频谱ToolStripMenuItem1, null); };
+            myChart1.cepstrumFinish += () => { if (!倒谱ToolStripMenuItem1.Checked) 倒谱ToolStripMenuItem1_Click(倒谱ToolStripMenuItem1, null); };
         }
         private void AllMenuInitial(bool isOpen)
         {
@@ -24,11 +26,13 @@ namespace WaveViewer.Forms
             Setting.ShowWave = isOpen;
             Setting.ShowSpec = false;
             Setting.ShowSpecSpec = false;
+            Setting.ShowLogSpec = false;
             Setting.ShowCepstrum = false;
             帧分隔线toolStripMenuItem.Checked = isOpen;
             波形ToolStripMenuItem.Checked = isOpen;
             频谱ToolStripMenuItem1.Checked = false;
             频谱的频谱ToolStripMenuItem1.Checked = false;
+            对数频谱ToolStripMenuItem.Checked = false;
             倒谱ToolStripMenuItem1.Checked = false;
 
             频谱ToolStripMenuItem.Checked = false;
@@ -239,9 +243,9 @@ namespace WaveViewer.Forms
             if (e.KeyValue != 13) return;
             if (!int.TryParse(((TextBox) sender).Text, out var value))
                 value = 0;
-            if (value > trackBar_move.Maximum)
+            if (value >= trackBar_move.Maximum)
                 value = trackBar_move.Maximum;
-            if (value < trackBar_move.Minimum)
+            if (value <= trackBar_move.Minimum)
                 value = trackBar_move.Minimum;
             trackBar_move.Value = value;
             trackBar_move.Focus();
@@ -254,9 +258,9 @@ namespace WaveViewer.Forms
             if (!double.TryParse(((TextBox) sender).Text, out var times))
                 times = 1.0f;
             var value = (int) (100 * Math.Log(times, 2.0));
-            if (value > trackBar_scale.Maximum)
+            if (value >= trackBar_scale.Maximum)
                 value = trackBar_scale.Maximum;
-            if (value < trackBar_scale.Minimum)
+            if (value <= trackBar_scale.Minimum)
                 value = trackBar_scale.Minimum;
             trackBar_scale.Value = value;
             trackBar_scale.Focus();

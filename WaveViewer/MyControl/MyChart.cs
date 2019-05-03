@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -21,6 +20,7 @@ namespace WaveViewer.MyControl
         //倒谱数据
         private MySeries[] _cepstrum;
         private int _chosenAreaMin, _chosenAreaMax;
+        //计算完成事件
         public CalculateFinish specFinish, specspecFinish, cepstrumFinish;
         /// <summary>
         /// 鼠标选择区域的最小值
