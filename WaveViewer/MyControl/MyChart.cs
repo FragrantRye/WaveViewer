@@ -10,7 +10,8 @@ using Brush = SharpDX.Direct2D1.Brush;
 
 namespace WaveViewer.MyControl
 {
-    public delegate void CalculateFinish();
+    public delegate void CalculateFinishEvent();
+    public delegate void ChooseAreaChangeEvent(int lenght);
     public partial class MyChart : UserControl
     {
         //波形数据
@@ -21,7 +22,8 @@ namespace WaveViewer.MyControl
         private MySeries[] _cepstrum;
         private int _chosenAreaMin, _chosenAreaMax;
         //计算完成事件
-        public CalculateFinish specFinish, specspecFinish, cepstrumFinish;
+        public CalculateFinishEvent specFinish, specspecFinish, cepstrumFinish;
+        public ChooseAreaChangeEvent chooseChanged;
         /// <summary>
         /// 鼠标选择区域的最小值
         /// </summary>
@@ -144,7 +146,6 @@ namespace WaveViewer.MyControl
             {
                 AntialiasMode = AntialiasMode.PerPrimitive
             };
-
             _blackBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.0f, 0.0f, 0.9f));    //纯种黑
             _blueBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.3f, 0.6f, 1.0f, 0.5f));     //天依蓝
             _greenBrush = new SolidColorBrush(_renderTarget, new RawColor4(0.0f, 0.8f, 0.0f, 0.9f));    //原谅绿
@@ -167,11 +168,13 @@ namespace WaveViewer.MyControl
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
             float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
-            for (int i = begin + 1; i <= end; i++)
+            RawVector2 p_current = getPixelPoint(begin, s.data[begin - s.begin], moveY, scale);
+            RawVector2 p_next;
+            for (int i = begin + 1; i <= begin + 6/*end*/; i++)
             {
-                _renderTarget.DrawLine(getPixelPoint(i - 1, s.data[i - s.begin - 1], moveY, scale),
-                    getPixelPoint(i, s.data[i - s.begin], moveY, scale),
-                    brush, 0.5f);
+                p_next = getPixelPoint(i, s.data[i - s.begin], moveY, scale);
+                _renderTarget.DrawLine(p_current, p_next, brush, 0.6f);
+                p_current = p_next;
             }
         }
         private void DrawSeriesHalf(MySeries s, Brush brush, float moveY, float scale)
@@ -467,8 +470,8 @@ namespace WaveViewer.MyControl
                 try
                 {
                     _renderTarget.Resize(new Size2(this.Width, this.Height));
-                    renderControl.Height = this.Height;
-                    renderControl.Width = this.Width-8;
+                    //renderControl.Height = this.Height;
+                    //renderControl.Width = this.Width;
                     this.Refresh();
                 }
                 catch (Exception) { }
@@ -514,6 +517,7 @@ namespace WaveViewer.MyControl
                 if (_chosenAreaMax > _wave.data.Length)
                     _chosenAreaMax = _wave.data.Length;
             }
+            chooseChanged?.Invoke(_chosenAreaMax - _chosenAreaMin);
             this.Refresh();
         }
     }

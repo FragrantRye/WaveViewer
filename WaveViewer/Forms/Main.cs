@@ -18,6 +18,7 @@ namespace WaveViewer.Forms
             myChart1.specFinish += () => { if(!频谱ToolStripMenuItem1.Checked) 频谱ToolStripMenuItem1_Click(频谱ToolStripMenuItem1, null); };
             myChart1.specspecFinish += () => { if (!频谱的频谱ToolStripMenuItem1.Checked) 频谱的频谱ToolStripMenuItem1_Click(频谱的频谱ToolStripMenuItem1, null); };
             myChart1.cepstrumFinish += () => { if (!倒谱ToolStripMenuItem1.Checked) 倒谱ToolStripMenuItem1_Click(倒谱ToolStripMenuItem1, null); };
+            myChart1.chooseChanged += ChooseAreaChange;
         }
         private void AllMenuInitial(bool isOpen)
         {
@@ -77,7 +78,6 @@ namespace WaveViewer.Forms
             if (this.WindowState != FormWindowState.Minimized)
             {
                 splitContainer1.Size = new Size(this.Width, this.Height - 65);
-                myChart1.Size = new Size(splitContainer1.Panel1.Width, splitContainer1.Panel1.Height);
                 trackBar_move.Width = trackBar_scale.Width = this.Width - 402;
             }
         }
@@ -288,6 +288,13 @@ namespace WaveViewer.Forms
         {
             myChart1.CepsMove = ((TrackBar)sender).Value;
             myChart1.Refresh();
+        }
+
+        private void ChooseAreaChange(int length)
+        {
+            label7.Text = "选择了" + length.ToString() + "个采样点";
+            if (_wr != null)
+                label7.Text += "，时长约" + ((double)length / _wr.GetSamplesPerSec()).ToString("0.000") + "s";
         }
     }
 }

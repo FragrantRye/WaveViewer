@@ -53,6 +53,8 @@
             this.自定义ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button_play = new System.Windows.Forms.Button();
+            this.button_stop = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.myChart1 = new WaveViewer.MyControl.MyChart();
             this.label6 = new System.Windows.Forms.Label();
@@ -69,8 +71,7 @@
             this.textBox_scale = new System.Windows.Forms.TextBox();
             this.textBox_move = new System.Windows.Forms.TextBox();
             this.trackBar_scale = new System.Windows.Forms.TrackBar();
-            this.button_play = new System.Windows.Forms.Button();
-            this.button_stop = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -277,6 +278,32 @@
             this.关于ToolStripMenuItem.Text = "关于";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
+            // button_play
+            // 
+            this.button_play.BackColor = System.Drawing.Color.Transparent;
+            this.button_play.BackgroundImage = global::WaveViewer.Properties.Resources.play;
+            this.button_play.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_play.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_play.Location = new System.Drawing.Point(268, 1);
+            this.button_play.Name = "button_play";
+            this.button_play.Size = new System.Drawing.Size(24, 23);
+            this.button_play.TabIndex = 6;
+            this.button_play.UseVisualStyleBackColor = false;
+            this.button_play.Click += new System.EventHandler(this.button_play_Click);
+            // 
+            // button_stop
+            // 
+            this.button_stop.BackColor = System.Drawing.Color.Transparent;
+            this.button_stop.BackgroundImage = global::WaveViewer.Properties.Resources.stop;
+            this.button_stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_stop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_stop.Location = new System.Drawing.Point(292, 1);
+            this.button_stop.Name = "button_stop";
+            this.button_stop.Size = new System.Drawing.Size(24, 23);
+            this.button_stop.TabIndex = 7;
+            this.button_stop.UseVisualStyleBackColor = false;
+            this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -306,25 +333,28 @@
             this.splitContainer1.Panel2.Controls.Add(this.textBox_move);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar_scale);
             this.splitContainer1.Size = new System.Drawing.Size(869, 600);
-            this.splitContainer1.SplitterDistance = 462;
+            this.splitContainer1.SplitterDistance = 468;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // myChart1
             // 
+            this.myChart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.myChart1.Location = new System.Drawing.Point(0, 0);
             this.myChart1.MinX = 0F;
             this.myChart1.Name = "myChart1";
             this.myChart1.Scale_times = 1F;
-            this.myChart1.Size = new System.Drawing.Size(867, 454);
+            this.myChart1.Size = new System.Drawing.Size(867, 459);
             this.myChart1.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(823, 120);
+            this.label6.Location = new System.Drawing.Point(823, 117);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 14;
@@ -334,7 +364,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(763, 120);
+            this.label5.Location = new System.Drawing.Point(763, 117);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 13;
@@ -344,7 +374,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(700, 120);
+            this.label4.Location = new System.Drawing.Point(700, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 12;
@@ -354,7 +384,7 @@
             // 
             this.trackBar4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar4.LargeChange = 3;
-            this.trackBar4.Location = new System.Drawing.Point(815, -1);
+            this.trackBar4.Location = new System.Drawing.Point(815, -4);
             this.trackBar4.Maximum = 20;
             this.trackBar4.Name = "trackBar4";
             this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -367,7 +397,7 @@
             // 
             this.trackBar3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar3.LargeChange = 3;
-            this.trackBar3.Location = new System.Drawing.Point(766, -1);
+            this.trackBar3.Location = new System.Drawing.Point(766, -4);
             this.trackBar3.Maximum = 20;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -380,7 +410,7 @@
             // 
             this.trackBar2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar2.LargeChange = 3;
-            this.trackBar2.Location = new System.Drawing.Point(715, -1);
+            this.trackBar2.Location = new System.Drawing.Point(715, -4);
             this.trackBar2.Maximum = 20;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -393,7 +423,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(667, 120);
+            this.label3.Location = new System.Drawing.Point(667, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 8;
@@ -403,7 +433,7 @@
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.LargeChange = 3;
-            this.trackBar1.Location = new System.Drawing.Point(660, -1);
+            this.trackBar1.Location = new System.Drawing.Point(660, -4);
             this.trackBar1.Maximum = 20;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -471,37 +501,21 @@
             this.trackBar_scale.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_scale.Scroll += new System.EventHandler(this.trackBar_scale_Scroll);
             // 
-            // button_play
+            // label7
             // 
-            this.button_play.BackColor = System.Drawing.Color.Transparent;
-            this.button_play.BackgroundImage = global::WaveViewer.Properties.Resources.play;
-            this.button_play.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button_play.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_play.Location = new System.Drawing.Point(268, 1);
-            this.button_play.Name = "button_play";
-            this.button_play.Size = new System.Drawing.Size(24, 23);
-            this.button_play.TabIndex = 6;
-            this.button_play.UseVisualStyleBackColor = false;
-            this.button_play.Click += new System.EventHandler(this.button_play_Click);
-            // 
-            // button_stop
-            // 
-            this.button_stop.BackColor = System.Drawing.Color.Transparent;
-            this.button_stop.BackgroundImage = global::WaveViewer.Properties.Resources.stop;
-            this.button_stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button_stop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_stop.Location = new System.Drawing.Point(292, 1);
-            this.button_stop.Name = "button_stop";
-            this.button_stop.Size = new System.Drawing.Size(24, 23);
-            this.button_stop.TabIndex = 7;
-            this.button_stop.UseVisualStyleBackColor = false;
-            this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(669, 5);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(0, 12);
+            this.label7.TabIndex = 8;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 625);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_play);
             this.Controls.Add(this.splitContainer1);
@@ -574,5 +588,6 @@
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -33,6 +33,9 @@
             // 
             // renderControl
             // 
+            this.renderControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.renderControl.Location = new System.Drawing.Point(0, 0);
             this.renderControl.Name = "renderControl";
             this.renderControl.Size = new System.Drawing.Size(525, 389);
