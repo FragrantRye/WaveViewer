@@ -24,6 +24,8 @@ namespace WaveViewer.MyControl
         //计算完成事件
         public CalculateFinishEvent specFinish, specspecFinish, cepstrumFinish;
         public ChooseAreaChangeEvent chooseChanged;
+        //采样频率
+        public float sample_frequent;
         /// <summary>
         /// 鼠标选择区域的最小值
         /// </summary>
@@ -168,9 +170,12 @@ namespace WaveViewer.MyControl
             begin = s.begin < this._minX ? (int)this._minX : s.begin;
             float maxX = this._minX + (renderControl.ClientSize.Width - 40) / this._scale_times_X;
             end = maxX > s.end ? s.end : (int)Math.Ceiling(maxX);
-            RawVector2 p_current = getPixelPoint(begin, s.data[begin - s.begin], moveY, scale);
-            RawVector2 p_next;
-            for (int i = begin + 1; i <= begin + 6/*end*/; i++)
+            RawVector2 p_current, p_next;
+            if (begin - s.begin < s.data.Length)
+                p_current = getPixelPoint(begin, s.data[begin - s.begin], moveY, scale);
+            else
+                return;
+            for (int i = begin + 1; i <= end; i++)
             {
                 p_next = getPixelPoint(i, s.data[i - s.begin], moveY, scale);
                 _renderTarget.DrawLine(p_current, p_next, brush, 0.6f);
@@ -292,18 +297,21 @@ namespace WaveViewer.MyControl
             {
                 float x = (i - _minX) * _scale_times_X + 40.0f;
                 int order = i / distance;
-                string orderinary = "No." + order.ToString();
+                string orderinary_string = "No." + order.ToString();
+                SolidColorBrush brush;
                 if (order % 2 == 0)
-                {
-                    _renderTarget.DrawLine(new RawVector2(x, 0), new RawVector2(x, renderControl.ClientSize.Height - 20), _greenBrush);
-                    _renderTarget.DrawText(orderinary, _blackTextFormat,
-                        new RawRectangleF(x, 2, x + orderinary.Length * 6, 12), _greenBrush);
-                }
+                    brush = _greenBrush;
                 else
+                    brush = _pinkBrush;
+                _renderTarget.DrawLine(new RawVector2(x, 0), new RawVector2(x, renderControl.ClientSize.Height - 20), brush);
+                _renderTarget.DrawText(orderinary_string, _blackTextFormat,
+                    new RawRectangleF(x, 2, x + orderinary_string.Length * 6, 12), brush);
+                if(_cepstrum!=null && order<_cepstrum.Length && _cepstrum[order].peek > 0)
                 {
-                    _renderTarget.DrawLine(new RawVector2(x, 0), new RawVector2(x, renderControl.ClientSize.Height - 20), _pinkBrush);
-                    _renderTarget.DrawText(orderinary, _blackTextFormat,
-                        new RawRectangleF(x, 2, x + orderinary.Length * 6, 12), _pinkBrush);
+                    double f = sample_frequent / _cepstrum[order].peek;
+                    string frequent_string = " f= " + f.ToString("0.0") + "Hz";
+                    _renderTarget.DrawText(frequent_string, _blackTextFormat,
+                    new RawRectangleF(x, 15, x + frequent_string.Length * 6, 25), brush);
                 }
             }
         }
@@ -319,9 +327,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_spec[i], _redBrush, 4 * SpecMove, 1);
+                            DrawSeriesHalf(_spec[i], _redBrush, 5 * SpecMove, 100.0f / Setting.FrameLength);
                         else
-                            DrawSeriesHalf(_spec[i], _greenBrush, 4 * SpecMove, 1);
+                            DrawSeriesHalf(_spec[i], _greenBrush, 5 * SpecMove, 100.0f / Setting.FrameLength);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -339,9 +347,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_specspec[i], _greenBrush, 40 + 4 * SpecSpecMove, 1);
+                            DrawSeriesHalf(_specspec[i], _greenBrush, 40 + 5 * SpecSpecMove, 1);
                         else
-                            DrawSeriesHalf(_specspec[i], _redBrush, 40 + 4 * SpecSpecMove, 1);
+                            DrawSeriesHalf(_specspec[i], _redBrush, 40 + 5 * SpecSpecMove, 1);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -359,9 +367,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalfLog(_spec[i], _greenBrush, 80 + 4 * LogSpecMove, 20);
+                            DrawSeriesHalfLog(_spec[i], _greenBrush, 80 + 5 * LogSpecMove, 20);
                         else
-                            DrawSeriesHalfLog(_spec[i], _redBrush, 80 + 4 * LogSpecMove, 20);
+                            DrawSeriesHalfLog(_spec[i], _redBrush, 80 + 5 * LogSpecMove, 20);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -379,9 +387,9 @@ namespace WaveViewer.MyControl
                     for (int i = beginFrame; i <= endFrame; i++)
                     {
                         if (i % 2 == 0)
-                            DrawSeriesHalf(_cepstrum[i], _redBrush, 120 + 4 * CepsMove, 2.0f);
+                            DrawSeriesHalf(_cepstrum[i], _redBrush, 120 + 5 * CepsMove, 2.0f);
                         else
-                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 120 + 4 * CepsMove, 2.0f);
+                            DrawSeriesHalf(_cepstrum[i], _greenBrush, 120 + 5 * CepsMove, 2.0f);
                     }
                 }
                 catch (IndexOutOfRangeException) { return; }
@@ -413,6 +421,17 @@ namespace WaveViewer.MyControl
             if (_spec != null)
             {
                 _cepstrum = ProgressDlg.CalculateCepstrum(_spec);
+                cepstrumFinish?.Invoke();
+                return true;
+            }
+            return false;
+        }
+        public bool CalculateFrequent()
+        {
+            if (_cepstrum != null)
+            {
+                for (int i = 0; i < _cepstrum.Length; i++)
+                    _cepstrum[i].FindPeek();
                 cepstrumFinish?.Invoke();
                 return true;
             }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关闭文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,8 +55,7 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button_play = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.myChart1 = new WaveViewer.MyControl.MyChart();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -71,33 +70,38 @@
             this.textBox_scale = new System.Windows.Forms.TextBox();
             this.textBox_move = new System.Windows.Forms.TextBox();
             this.trackBar_scale = new System.Windows.Forms.TrackBar();
-            this.label7 = new System.Windows.Forms.Label();
-            this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.myChart = new WaveViewer.MyControl.MyChart();
+            this.识别基音频率ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_move)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_scale)).BeginInit();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // menuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.计算ToolStripMenuItem,
             this.显示ToolStripMenuItem,
             this.帧长设置ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(869, 25);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(869, 25);
+            this.menuStrip.TabIndex = 3;
+            this.menuStrip.Text = "menuStrip1";
             // 
             // 文件ToolStripMenuItem
             // 
@@ -136,7 +140,8 @@
             this.计算ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.频谱ToolStripMenuItem,
             this.频谱的频谱ToolStripMenuItem,
-            this.倒谱ToolStripMenuItem});
+            this.倒谱ToolStripMenuItem,
+            this.识别基音频率ToolStripMenuItem});
             this.计算ToolStripMenuItem.Name = "计算ToolStripMenuItem";
             this.计算ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.计算ToolStripMenuItem.Text = "计算";
@@ -144,21 +149,21 @@
             // 频谱ToolStripMenuItem
             // 
             this.频谱ToolStripMenuItem.Name = "频谱ToolStripMenuItem";
-            this.频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.频谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.频谱ToolStripMenuItem.Text = "频谱";
             this.频谱ToolStripMenuItem.Click += new System.EventHandler(this.频谱ToolStripMenuItem_Click);
             // 
             // 频谱的频谱ToolStripMenuItem
             // 
             this.频谱的频谱ToolStripMenuItem.Name = "频谱的频谱ToolStripMenuItem";
-            this.频谱的频谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.频谱的频谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.频谱的频谱ToolStripMenuItem.Text = "频谱的频谱";
             this.频谱的频谱ToolStripMenuItem.Click += new System.EventHandler(this.频谱的频谱ToolStripMenuItem_Click);
             // 
             // 倒谱ToolStripMenuItem
             // 
             this.倒谱ToolStripMenuItem.Name = "倒谱ToolStripMenuItem";
-            this.倒谱ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.倒谱ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.倒谱ToolStripMenuItem.Text = "倒谱";
             this.倒谱ToolStripMenuItem.Click += new System.EventHandler(this.倒谱ToolStripMenuItem_Click);
             // 
@@ -304,57 +309,48 @@
             this.button_stop.UseVisualStyleBackColor = false;
             this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
-            // splitContainer1
+            // splitContainer
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.myChart1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.label6);
-            this.splitContainer1.Panel2.Controls.Add(this.label5);
-            this.splitContainer1.Panel2.Controls.Add(this.label4);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar4);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar3);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar2);
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar1);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar_move);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox_scale);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox_move);
-            this.splitContainer1.Panel2.Controls.Add(this.trackBar_scale);
-            this.splitContainer1.Size = new System.Drawing.Size(869, 600);
-            this.splitContainer1.SplitterDistance = 468;
-            this.splitContainer1.SplitterWidth = 3;
-            this.splitContainer1.TabIndex = 5;
-            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
-            // 
-            // myChart1
-            // 
-            this.myChart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.myChart1.Location = new System.Drawing.Point(0, 0);
-            this.myChart1.MinX = 0F;
-            this.myChart1.Name = "myChart1";
-            this.myChart1.Scale_times = 1F;
-            this.myChart1.Size = new System.Drawing.Size(867, 459);
-            this.myChart1.TabIndex = 4;
+            this.splitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer.Name = "splitContainer";
+            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.myChart);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.label6);
+            this.splitContainer.Panel2.Controls.Add(this.label5);
+            this.splitContainer.Panel2.Controls.Add(this.label4);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar4);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar3);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar2);
+            this.splitContainer.Panel2.Controls.Add(this.label3);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar1);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar_move);
+            this.splitContainer.Panel2.Controls.Add(this.label2);
+            this.splitContainer.Panel2.Controls.Add(this.label1);
+            this.splitContainer.Panel2.Controls.Add(this.textBox_scale);
+            this.splitContainer.Panel2.Controls.Add(this.textBox_move);
+            this.splitContainer.Panel2.Controls.Add(this.trackBar_scale);
+            this.splitContainer.Size = new System.Drawing.Size(869, 575);
+            this.splitContainer.SplitterDistance = 443;
+            this.splitContainer.SplitterWidth = 3;
+            this.splitContainer.TabIndex = 5;
+            this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(823, 117);
+            this.label6.Location = new System.Drawing.Point(823, 112);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 14;
@@ -362,9 +358,9 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(763, 117);
+            this.label5.Location = new System.Drawing.Point(763, 112);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 13;
@@ -372,9 +368,9 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(700, 117);
+            this.label4.Location = new System.Drawing.Point(700, 112);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 12;
@@ -382,48 +378,48 @@
             // 
             // trackBar4
             // 
-            this.trackBar4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.trackBar4.LargeChange = 3;
-            this.trackBar4.Location = new System.Drawing.Point(815, -4);
+            this.trackBar4.Location = new System.Drawing.Point(815, 3);
             this.trackBar4.Maximum = 20;
             this.trackBar4.Name = "trackBar4";
             this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar4.Size = new System.Drawing.Size(45, 126);
+            this.trackBar4.Size = new System.Drawing.Size(45, 114);
             this.trackBar4.TabIndex = 11;
             this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar4.ValueChanged += new System.EventHandler(this.TrackBar4_ValueChanged);
             // 
             // trackBar3
             // 
-            this.trackBar3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.trackBar3.LargeChange = 3;
-            this.trackBar3.Location = new System.Drawing.Point(766, -4);
+            this.trackBar3.Location = new System.Drawing.Point(766, 3);
             this.trackBar3.Maximum = 20;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar3.Size = new System.Drawing.Size(45, 126);
+            this.trackBar3.Size = new System.Drawing.Size(45, 114);
             this.trackBar3.TabIndex = 10;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar3.ValueChanged += new System.EventHandler(this.TrackBar3_ValueChanged);
             // 
             // trackBar2
             // 
-            this.trackBar2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.trackBar2.LargeChange = 3;
-            this.trackBar2.Location = new System.Drawing.Point(715, -4);
+            this.trackBar2.Location = new System.Drawing.Point(715, 3);
             this.trackBar2.Maximum = 20;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar2.Size = new System.Drawing.Size(45, 126);
+            this.trackBar2.Size = new System.Drawing.Size(45, 114);
             this.trackBar2.TabIndex = 9;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar2.ValueChanged += new System.EventHandler(this.TrackBar2_ValueChanged);
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(667, 117);
+            this.label3.Location = new System.Drawing.Point(667, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 8;
@@ -431,13 +427,13 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.trackBar1.LargeChange = 3;
-            this.trackBar1.Location = new System.Drawing.Point(660, -4);
+            this.trackBar1.Location = new System.Drawing.Point(660, 3);
             this.trackBar1.Maximum = 20;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar1.Size = new System.Drawing.Size(45, 126);
+            this.trackBar1.Size = new System.Drawing.Size(45, 114);
             this.trackBar1.TabIndex = 7;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
@@ -445,7 +441,7 @@
             // trackBar_move
             // 
             this.trackBar_move.LargeChange = 50;
-            this.trackBar_move.Location = new System.Drawing.Point(178, 33);
+            this.trackBar_move.Location = new System.Drawing.Point(162, 29);
             this.trackBar_move.Maximum = 100000;
             this.trackBar_move.Name = "trackBar_move";
             this.trackBar_move.Size = new System.Drawing.Size(483, 45);
@@ -457,7 +453,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 93);
+            this.label2.Location = new System.Drawing.Point(13, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 5;
@@ -466,7 +462,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 38);
+            this.label1.Location = new System.Drawing.Point(17, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 4;
@@ -474,7 +470,7 @@
             // 
             // textBox_scale
             // 
-            this.textBox_scale.Location = new System.Drawing.Point(98, 89);
+            this.textBox_scale.Location = new System.Drawing.Point(82, 85);
             this.textBox_scale.Name = "textBox_scale";
             this.textBox_scale.Size = new System.Drawing.Size(74, 21);
             this.textBox_scale.TabIndex = 3;
@@ -483,7 +479,7 @@
             // 
             // textBox_move
             // 
-            this.textBox_move.Location = new System.Drawing.Point(98, 33);
+            this.textBox_move.Location = new System.Drawing.Point(82, 29);
             this.textBox_move.Name = "textBox_move";
             this.textBox_move.Size = new System.Drawing.Size(74, 21);
             this.textBox_move.TabIndex = 2;
@@ -492,7 +488,7 @@
             // 
             // trackBar_scale
             // 
-            this.trackBar_scale.Location = new System.Drawing.Point(178, 89);
+            this.trackBar_scale.Location = new System.Drawing.Point(162, 85);
             this.trackBar_scale.Maximum = 500;
             this.trackBar_scale.Minimum = -664;
             this.trackBar_scale.Name = "trackBar_scale";
@@ -501,52 +497,85 @@
             this.trackBar_scale.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_scale.Scroll += new System.EventHandler(this.trackBar_scale_Scroll);
             // 
-            // label7
+            // statusStrip
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(669, 5);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 12);
-            this.label7.TabIndex = 8;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
+            this.statusStrip.Location = new System.Drawing.Point(0, 603);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(869, 22);
+            this.statusStrip.TabIndex = 9;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+            // 
+            // myChart
+            // 
+            this.myChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myChart.Location = new System.Drawing.Point(0, 0);
+            this.myChart.MinX = 0F;
+            this.myChart.Name = "myChart";
+            this.myChart.Scale_times = 1F;
+            this.myChart.Size = new System.Drawing.Size(867, 434);
+            this.myChart.TabIndex = 4;
+            // 
+            // 识别基音频率ToolStripMenuItem
+            // 
+            this.识别基音频率ToolStripMenuItem.Name = "识别基音频率ToolStripMenuItem";
+            this.识别基音频率ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.识别基音频率ToolStripMenuItem.Text = "识别基音频率";
+            this.识别基音频率ToolStripMenuItem.Click += new System.EventHandler(this.识别基音频率ToolStripMenuItem_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 625);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_play);
-            this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "Main";
             this.Text = "WaveViewer";
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.Main_Layout);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            this.splitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_move)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_scale)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
@@ -561,9 +590,9 @@
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 帧长设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private MyControl.MyChart myChart1;
+        private MyControl.MyChart myChart;
         private System.Windows.Forms.ToolStripMenuItem 关闭文件ToolStripMenuItem;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
@@ -588,6 +617,9 @@
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem 识别基音频率ToolStripMenuItem;
     }
 }
